@@ -32,15 +32,14 @@ class ctrl_handler(SocketServer.BaseRequestHandler):
             self.request.send(self.html_data)
         except:
             raise
-        if self.html_data != "":
-            self.soup = bs4.BeautifulSoup(self.html_data)
-            print "[!] create soup successfully!!!"
-        else:
-            self.request.send('None data back')
+
   
         
     def parse(self, cmd = ""):
         """This func is to parse cmd from remote server"""
+        if cmd.startswith('# '):
+            self.sys_cmd = cmd[2:]
+            return 1
         cmd_list = cmd.split(" ")
         script_name = cmd_list[0]
         
@@ -126,6 +125,7 @@ class ctrl_handler(SocketServer.BaseRequestHandler):
             return 0
         self.sys_cmd = self.sys_cmd + "\""
         print self.sys_cmd
+        return 1
         
                 
 HOST = '127.0.0.1'

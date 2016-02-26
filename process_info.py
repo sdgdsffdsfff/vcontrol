@@ -29,6 +29,8 @@ class process_info(threading.Thread):
             pass
         
         while self.is_working:
+            if self.process_items != []:
+                self.process_items = []
             #time.sleep(self.update_time)
             self.update()
             time.sleep(self.update_time)

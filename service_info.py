@@ -38,9 +38,18 @@ class service_info(threading.Thread):
             pass
         
         while self.is_working:
+            #initialize items
+            if self.running_service_items != []:
+                self.running_service_items = []
+            if self.stopped_service_items != []:
+                self.stopped_service_items = []
             #time.sleep(self.update_time)
+            
+            #update the information of services
             self.update()
             time.sleep(self.update_time)
+            print self.running_service_items
+            print self.stopped_service_items
     
     def stop(self):
         if self.is_working == True:
@@ -105,7 +114,11 @@ class service_info(threading.Thread):
                 print "[^] Data End"
                 break
             response = response + ret
+        print "[^] Debug I/O"
+        print response
         self.stopped_service_raw_data = response
+        #print "-----------------------------"
+        #print self.stopped_service_raw_data
         s.close()
         
     def analyze(self):
@@ -119,7 +132,13 @@ class service_info(threading.Thread):
             else:
                 pass
             self.create(tmp)
-
+        
+        data_list = self.stopped_service_raw_data.splitlines()
+        self.keys = data_list[1].split()
+        for i in range(len(data_list) - 3):
+            ret = i + 3
+            tmp = data_list[ret].split()
+            self.create(tmp)
 """
 data_list = data.split("\n")
 for i in data_list:
