@@ -168,5 +168,5 @@ if __name__ == "__main__":
     print "Prepare!"
     info1 = service_info(
                         update_time=5, 
-                        target_addr=("127.0.0.1",28878))
+                        target_addr=("127.0.0.1",9999))
     info1.start()

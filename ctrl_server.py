@@ -1,3 +1,4 @@
+#encoding:utf-8
 import SocketServer
 import os
 import threading
@@ -22,14 +23,25 @@ class ctrl_handler(SocketServer.BaseRequestHandler):
             print error_data
             self.request.send(error_data)
             raise
+        print cmd
         
-        self.execute(cmd)
-    
+        if cmd.startswith('#'):
+            self.sys_cmd = cmd[2:]
+            self.execute_raw(self.sys_cmd)
+        else:    
+            self.execute(cmd)
+
+    def execute_raw(self, cmd):
+        response = os.popen(cmd).read()
+        self.request.send(response)
+        self.request.close()
+        
     def execute(self, cmd = ""):
         self.parse(cmd)
         try:
             self.html_data = os.popen(self.sys_cmd).read()
             self.request.send(self.html_data)
+            self.request.close()
         except:
             raise
 
@@ -37,9 +49,6 @@ class ctrl_handler(SocketServer.BaseRequestHandler):
         
     def parse(self, cmd = ""):
         """This func is to parse cmd from remote server"""
-        if cmd.startswith('# '):
-            self.sys_cmd = cmd[2:]
-            return 1
         cmd_list = cmd.split(" ")
         script_name = cmd_list[0]
         
@@ -101,7 +110,7 @@ class ctrl_handler(SocketServer.BaseRequestHandler):
                 except:
                     return 0                
             else:
-                print "[!] Failed£°"
+                print "[!] FailedÔºÅ"
                 return 0            
         elif script_name == 'pc_info':
             self.sys_cmd = self.sys_cmd + ' ".\\vpcinfo.ps1'
@@ -129,6 +138,6 @@ class ctrl_handler(SocketServer.BaseRequestHandler):
         
                 
 HOST = '127.0.0.1'
-PORT = 28878
+PORT = 9999
 server = ctrl_server((HOST, PORT), ctrl_handler)
 server.serve_forever()
