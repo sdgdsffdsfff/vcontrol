@@ -1,0 +1,18 @@
+control.py API
+method
+	kill_process(process_name = "target")
+		for example:
+			control_instance.kill_process(process_name = "360")
+	stop_process(service_name = "target")
+	start_service(service_name = "target")
+	send_raw_cmd(cmd = "cmd")
+
+
+
+how to use:
+	controler = control(target_addr = ('127.0.0.1', 9999))
+	response_data = controler.send_raw_cmd(cmd = "ipconfig")
+	
+	controler.kill_process(process_name = "360se") #close 360ä¯ÀÀÆ÷
+		
+	

@@ -1,0 +1,5 @@
+ctrl_server
+	open ctrl_server.py
+	
+	change HOST and PORT to listen in a fixed point,
+	just serve_forever()

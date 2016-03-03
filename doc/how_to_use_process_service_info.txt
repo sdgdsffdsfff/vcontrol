@@ -1,0 +1,12 @@
+process_info
+	使用这个模块之前，我们需要在一个线程中启动该模块，然后再使用process_info中的process_items字段获取所有线程
+
+process是一个list，list中的元素是dict，每一个dict有 Handles NPM(K) PM(K) WS(K) VM(M) CPU(s) Id SI ProcessName这几个key，还有对应的值。
+使用方法：
+
+	proc_info = process_info(update_time = 5, target_addr = ('127.0.0.1', 9999)) 只需要填写目标计算机的IP地址和控制服务器端口号
+	info.start() #只有执行了start方法以后，整个数据才是不断更新的，
+
+service_info
+	和process_info 的使用方法基本一致，但是存在两个items，一个记录running_service 一个记录stopped_service
+	其余使用方法完全一样

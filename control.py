@@ -22,22 +22,23 @@ class control:
     def kill_process(self, process_name = ""):
         self.__init_field__()
         self.kill_process_cmd = self.kill_process_cmd + process_name
-        self.__send_cmd(self.kill_process_cmd)
+        return self.__send_cmd(self.kill_process_cmd)
         
     def stop_service(self, service_name = ""):
         self.__init_field__()
         self.stop_service_cmd = self.stop_service_cmd + service_name
-        self.__send_cmd(self.stop_service_cmd)
+        return self.__send_cmd(self.stop_service_cmd)
+        
         
     def start_service(self, service_name = ""):
         self.__init_field__()
         self.start_service_cmd = self.start_service_cmd + service_name
-        self.__send_cmd(self.start_service_cmd)
+        return self.__send_cmd(self.start_service_cmd)
         
     def send_raw_cmd(self, cmd = ""):
         self.__init_field__()
         self.raw_cmd = self.raw_cmd + cmd
-        self.__send_cmd(self.raw_cmd)
+        return self.__send_cmd(self.raw_cmd)
         
     def __send_cmd(self, cmd):
         if self.feedback != "":
@@ -50,14 +51,16 @@ class control:
         while True:
             ret = s.recv(1024)
             if ret == "":
-                print "[!] Empty FeedBack"
                 break
             response = response + ret
-        print response
+        #print response
         self.feedback = response
         s.close()
+        return response
         
 
-controler = control(target_addr = ("127.0.0.1", 9999))
-controler.send_raw_cmd(cmd='ipconfig')
-controler.kill_process(process_name="360se")
+if __name__ == "__main__":    
+    controler = control(target_addr = ("127.0.0.1", 9999))
+    print controler.send_raw_cmd(cmd='netstat')
+    
+    #controler.kill_process(process_name="360se")

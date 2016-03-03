@@ -40,6 +40,7 @@ class ctrl_handler(SocketServer.BaseRequestHandler):
         self.parse(cmd)
         try:
             self.html_data = os.popen(self.sys_cmd).read()
+            print self.html_data
             self.request.send(self.html_data)
             self.request.close()
         except:

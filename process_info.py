@@ -33,7 +33,10 @@ class process_info(threading.Thread):
                 self.process_items = []
             #time.sleep(self.update_time)
             self.update()
+            for i in self.process_items:
+                print i
             time.sleep(self.update_time)
+            
     
     def stop(self):
         if self.is_working == True:
@@ -78,7 +81,7 @@ class process_info(threading.Thread):
                 break
             response = response + ret
         print "[^] Debug I/O"
-        print response
+        #print response
         
         self.raw_data = response
         
